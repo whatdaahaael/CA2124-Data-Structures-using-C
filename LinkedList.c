@@ -11,25 +11,25 @@
 typedef struct ListType{
 	int Data;
 	struct ListType *Next;
-}LN;
+}LISTNODE;
 
 // Global Variable
-LN *Head;
+LISTNODE *Head;
 
 // Prototypes
-void InitList();
-void InLL(int Num);
-void DisList(LN *Head); // {10->20->30->40...}
-void DelNum(int Num);
-int LinSea(int Num);
-int MaxNo();
+void InitializeList();
+void InsertLinkedList(int Num);
+void DisplayList(); // {10->20->30->40...}
+void DeleteNumber(int Num);
+int LinearSearch(int Num);
+int MaxNumber();
 void Menu(int *Choice);
 
 main()
 {
 	int Choice, Num, Max;
 	
-	InitList();
+	InitializeList();
 		
 	while(1){
 		
@@ -39,21 +39,21 @@ main()
 			case 1:
 				printf("Enter Num:\n");
 				scanf("%d",&Num);
-				InLL(Num);
+				InsertLinkedList(Num);
 				break;
 			case 2:
 				printf("List is:\n");
-				DisList(Head);
+				DisplayList();
 				break;
 			case 3:
 				printf("Enter Num:\n");
 				scanf("%d",&Num);
-				DelNum(Num);
+				DeleteNumber(Num);
 				break;
 			case 4:
 				printf("Enter Num:\n");
 				scanf("%d",&Num);
-				int Found=LinSea(Num);
+				int Found=LinearSearch(Num);
 				if (Found==1){
 					printf("Number is found\n");
 				}else{
@@ -61,7 +61,7 @@ main()
 				}
 				break;
 			case 5:
-				Max=MaxNo();
+				Max=MaxNumber();
 				if(Max==-1){
 					printf("List is Empty\n");
 				}else{
@@ -83,17 +83,17 @@ main()
 }
 
 // Initialize List
-void InitList()
+void InitializeList()
 {
 	Head=NULL;
 }
 
 // 1. Insert into List
-void InLL(int Num)
+void InsertLinkedList(int Num)
 {
-	LN *Prev, *Curr, *Node;
+	LISTNODE *Prev, *Curr, *Node;
 	
-	Node=(LN*)malloc(sizeof(LN));
+	Node=(LISTNODE*)malloc(sizeof(LISTNODE));
 	Node->Data=Num;
 	Node->Next=NULL;
 	
@@ -113,9 +113,9 @@ void InLL(int Num)
 }
 
 // 2. Display Contents of List
-void DisList(LN *Head)
+void DisplayList()
 {
-	LN *Curr;
+	LISTNODE *Curr;
 	
 	if(Head==NULL){
 		printf("Empty.\n");
@@ -133,42 +133,47 @@ void DisList(LN *Head)
 	printf("\n");
 }
 
-// 3. Delete a Number
-void DelNum(int Num)
+// 3. Delete Number
+void DeleteNumber(int Num)
 {
-	LN *Prev, *Curr;
+	LISTNODE *Prev, *Curr;
+	Prev=Curr=Head;
 	
-	// List is Empty
-	if(Head==NULL){
-		printf("List Empty.\n");
+	// Case 1: No List
+	if(Head == NULL){
+		printf("No List...\n");
+		free(Curr);
 		return;
 	}
 	
-	Curr=Head;
-	while (Curr!=NULL && Curr->Data!=Num) {
-        Prev=Curr;
-        Curr=Curr->Next;
-    }
-    
-    // Number Does not exist
-	if(Curr==NULL){
-		printf("Number does not Exist.\n");
+	// Case 2: Number at Head of list
+	if(Num == Curr->Data){
+		Head=Curr->Next;
+		free(Curr);
+		printf("%d Deleted from List.\n", Num);
 		return;
 	}
 	
-	// Located at head
-	if(Prev == NULL) {
-        Head = Curr->Next;
-    } else { // Located elsewhere
-        Prev->Next = Curr->Next;
-    }
-    printf("Number Deleted.\n");
+	while(Curr->Data != Num && Curr->Next!=NULL){
+		Prev = Curr;
+		Curr = Curr->Next;
+	}
+	
+	// Case 3: Number in between
+	if(Curr->Data==Num){
+		Prev->Next=Curr->Next;
+		free(Curr);
+		printf("%d Deleted from List.\n", Num);
+		return;
+	} else {
+		printf("%d not found in the list.", Num);
+	}	
 }
 
 // 4. Linear Search
-int LinSea(int Num)
+int LinearSearch(int Num)
 {
-	LN *Curr;
+	LISTNODE *Curr;
 	
 	//case 1: No list
 	if(Head==NULL){
@@ -186,9 +191,9 @@ int LinSea(int Num)
 }
 
 // 5. Max Number
-int MaxNo()
+int MaxNumber()
 {
-	LN *Curr;
+	LISTNODE *Curr;
 	int Max;
 	
 	// Case 1: No list
