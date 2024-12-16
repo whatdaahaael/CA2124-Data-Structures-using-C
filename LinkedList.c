@@ -20,6 +20,8 @@ LISTNODE *Head;
 void InitializeList();
 void InsertLinkedList(int Num);
 void DisplayList(); // {10->20->30->40...}
+int DeleteFirstNum();
+int DeleteLastNum();
 void DeleteNumber(int Num);
 int LinearSearch(int Num);
 int MaxNumber();
@@ -46,11 +48,19 @@ main()
 				DisplayList();
 				break;
 			case 3:
+				Num=DeleteFirstNum();
+				printf("First Number is: %d", Num);
+				break;
+			case 4:
+				Num=DeleteLastNum();
+				printf("Last Number is: %d", Num);
+				break;
+			case 5:
 				printf("Enter Num:\n");
 				scanf("%d",&Num);
 				DeleteNumber(Num);
 				break;
-			case 4:
+			case 6:
 				printf("Enter Num:\n");
 				scanf("%d",&Num);
 				int Found=LinearSearch(Num);
@@ -60,7 +70,7 @@ main()
 					printf("Number not found\n");
 				}
 				break;
-			case 5:
+			case 7:
 				Max=MaxNumber();
 				if(Max==-1){
 					printf("List is Empty\n");
@@ -69,7 +79,7 @@ main()
 				}
 				break;
 			    	
-			case 6:
+			case 8:
 				exit('1');
 			default:
 				printf("Invalid Choice.\n");
@@ -117,6 +127,7 @@ void DisplayList()
 {
 	LISTNODE *Curr;
 	
+	// Case 1: No List
 	if(Head==NULL){
 		printf("Empty.\n");
 		return;
@@ -133,7 +144,50 @@ void DisplayList()
 	printf("\n");
 }
 
-// 3. Delete Number
+// 3. Delete First Number
+int DeleteFirstNum()
+{
+	int Num;
+	
+	// Case 1: No List
+	if(Head == NULL){
+		printf("No List...\n");
+		return -1;
+	}
+	
+	// Case 2: Head is Work
+	Num=Head->Data;
+	Head=Head->Next;
+	return Num;
+}
+
+// 4. Delete Last Number
+int DeleteLastNum()
+{
+	LISTNODE *Prev, *Curr;
+	Prev=Curr=Head;
+	int Num;
+	
+	// Case 1: No List
+	if(Head == NULL){
+		printf("No List...\n");
+		free(Curr);
+		return -1;
+	}
+	
+	// Case 2: Delete end number
+	while(Curr->Next!=NULL){
+		Prev=Curr;
+		Curr=Curr->Next;
+	}
+	
+	Prev->Next=NULL;
+	Num=Curr->Data;
+	free(Curr);
+	return Num;
+}
+
+// 5. Delete Number
 void DeleteNumber(int Num)
 {
 	LISTNODE *Prev, *Curr;
@@ -170,7 +224,7 @@ void DeleteNumber(int Num)
 	}	
 }
 
-// 4. Linear Search
+// 6. Linear Search
 int LinearSearch(int Num)
 {
 	LISTNODE *Curr;
@@ -190,7 +244,7 @@ int LinearSearch(int Num)
 	return -1;
 }
 
-// 5. Max Number
+// 7. Max Number
 int MaxNumber()
 {
 	LISTNODE *Curr;
@@ -225,7 +279,7 @@ void Menu(int *Choice)
 	system("cls");
 	printf("\t\tLINKED LIST\n");
 	printf("Menu:\n");
-	printf("1. Insert Number\n2. Display List\n3. Delete A Number\n4. Search Number\n5. Max Number\n6. Exit\n");
+	printf("1. Insert Number\n2. Display List\n3. Delete First Number\n4. Delete Last Number\n5. Delete A Number\n6. Search Number\n7. Max Number\n8. Exit\n");
 	printf("\nEnter Choice: ");
 	scanf("%d", Choice);
 	printf("\n\n\n\n\n\n");
