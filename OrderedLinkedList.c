@@ -1,5 +1,5 @@
 /*
-		LinkedList.c
+		OrderedLinkedList.c
 		Sujan
 */
 
@@ -20,16 +20,14 @@ LISTNODE *Head;
 void InitializeList();
 void InsertLinkedList(int Num);
 void DisplayList(); // {10->20->30->40...}
-int DeleteFirstNum();
-int DeleteLastNum();
 void DeleteNumber(int Num);
 int LinearSearch(int Num);
-int MaxNumber();
+int Size();
 void Menu(int *Choice);
 
 main()
 {
-	int Choice, Num, Max, Found;
+	int Choice, Num, Max, Found, NumNodes;
 	
 	InitializeList();
 		
@@ -48,19 +46,11 @@ main()
 				DisplayList();
 				break;
 			case 3:
-				Num=DeleteFirstNum();
-				printf("First Number is: %d", Num);
-				break;
-			case 4:
-				Num=DeleteLastNum();
-				printf("Last Number is: %d", Num);
-				break;
-			case 5:
 				printf("Enter Num:\n");
 				scanf("%d",&Num);
 				DeleteNumber(Num);
 				break;
-			case 6:
+			case 4:
 				printf("Enter Num:\n");
 				scanf("%d",&Num);
 				Found=LinearSearch(Num);
@@ -70,16 +60,15 @@ main()
 					printf("Number not found\n");
 				}
 				break;
-			case 7:
-				Max=MaxNumber();
-				if(Max==-1){
+			case 5:
+				NumNodes=Size();
+				if(NumNodes==-1){
 					printf("List is Empty\n");
 				}else{
-					printf("%d is the greatest\n",Max);
+					printf("There are %d Nodes\n", NumNodes);
 				}
 				break;
-			    	
-			case 8:
+			case 6:
 				exit('1');
 			default:
 				printf("Invalid Choice.\n");
@@ -152,50 +141,7 @@ void DisplayList()
 	printf("\n");
 }
 
-// 3. Delete First Number
-int DeleteFirstNum()
-{
-	int Num;
-	
-	// Case 1: No List
-	if(Head == NULL){
-		printf("No List...\n");
-		return -1;
-	}
-	
-	// Case 2: Head is Work
-	Num=Head->Data;
-	Head=Head->Next; // 30->40->50
-	return Num;
-}
-
-// 4. Delete Last Number
-int DeleteLastNum()
-{
-	LISTNODE *Prev, *Curr;
-	Prev=Curr=Head;
-	int Num;
-	
-	// Case 1: No List
-	if(Head == NULL){
-		printf("No List...\n");
-		free(Curr);
-		return -1;
-	}
-	
-	// Case 2: Delete end number
-	while(Curr->Next!=NULL){
-		Prev=Curr;
-		Curr=Curr->Next;
-	}
-	
-	Prev->Next=NULL;
-	Num=Curr->Data;
-	free(Curr);
-	return Num;
-}
-
-// 5. Delete Number
+// 3. Delete Number
 void DeleteNumber(int Num)
 {
 	LISTNODE *Prev, *Curr;
@@ -232,7 +178,7 @@ void DeleteNumber(int Num)
 	}	
 }
 
-// 6. Linear Search
+// 4. Linear Search
 int LinearSearch(int Num)
 {
 	LISTNODE *Curr;
@@ -252,11 +198,11 @@ int LinearSearch(int Num)
 	return -1;
 }
 
-// 7. Max Number
-int MaxNumber()
+// 5. Size
+int Size()
 {
 	LISTNODE *Curr;
-	int Max;
+	int Count=0;
 	
 	// Case 1: No list
 	if(Head==NULL){
@@ -265,20 +211,16 @@ int MaxNumber()
 	
 	// Case 2: Only one number
 	if (Head->Next == NULL) {
-		Max=Head->Data;
-        return Max;
+        return 1;
     }
     
     // Case 3: Full List
 	Curr=Head;
-	Max=Curr->Data;
 	while(Curr!=NULL){
-		if(Max<Curr->Data){
-			Max=Curr->Data;
-		}
+		Count+=1;
 		Curr=Curr->Next;
 	}
-	return Max;
+	return Count;
 }
 
 // Menu
@@ -287,7 +229,7 @@ void Menu(int *Choice)
 	system("cls");
 	printf("\t\tLINKED LIST\n");
 	printf("Menu:\n");
-	printf("1. Insert Number\n2. Display List\n3. Delete First Number\n4. Delete Last Number\n5. Delete A Number\n6. Search Number\n7. Max Number\n8. Exit\n");
+	printf("1. Insert Number\n2. Display List\n3. Delete A Number\n4. Search Number\n5. Size\n6. Exit\n");
 	printf("\nEnter Choice: ");
 	scanf("%d", Choice);
 	printf("\n\n\n\n\n\n");
