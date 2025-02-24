@@ -16,7 +16,6 @@ int Pop();
 int StackExist();
 int Precedence(char Optr);
 char *InfixToPost(char Infix[]);
-void Menu(int *Choice);
 
 main()
 {
