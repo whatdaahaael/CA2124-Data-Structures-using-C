@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define SIZE 10
+#define SIZE 20
 
 typedef struct StackType{
 	int A[SIZE];
@@ -18,7 +18,7 @@ void Menu(int *Choice);
 
 main()
 {
-	int Choice, Num, Max, Found;
+	int Choice, Num, N, i, Found;
 	
 	InitStack();
 		
@@ -28,9 +28,12 @@ main()
 		
 		switch(Choice){
 			case 1:
-				printf("Enter Num:\n");
-				scanf("%d",&Num);
-				Push(Num);
+				printf("Enter Size:\n");
+				scanf("%d", &N);
+				for(i=0; i<N; i++){
+					scanf("%d",&Num);
+					Push(Num);
+				}
 				break;
 			case 2:
 				printf("Stack is:\n");
@@ -60,7 +63,7 @@ void InitStack()
 
 void Push(int Num)
 {
-	if(StackExist()==0){
+	if(StackExist()==1){
 		printf("Overflow.\n");
 		return;
 	}
@@ -73,7 +76,7 @@ void Display()
 {
 	int i;
 	
-	if(StackExist()==1){
+	if(StackExist()==-1){
 		printf("Stack is Empty.\n");
 		return;	
 	}
@@ -85,7 +88,7 @@ void Display()
 
 int Pop()
 {
-	if(StackExist()==1){
+	if(StackExist()==-1){
 		printf("Underflow.\n");
 		return -1;
 	}
@@ -100,8 +103,8 @@ int StackExist()
     if (S.Top == 0)    // Stack is empty
         return -1; 
     if (S.Top == SIZE - 1)  // Stack is full
-        return 0; 
-    return 1;  // Stack has elements
+        return 1; 
+    return 0;  // Stack has elements
 }
 
 void Menu(int *Choice)
