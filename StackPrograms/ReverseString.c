@@ -14,29 +14,17 @@ STACK S;
 void InitStack();
 void Push(char Num);
 char Pop();
+void ReverseString(char Sen[SIZE]);
 
-int main() {
-    char Sen[SIZE], New[SIZE];
-    int i, len;
+int main() 
+{
+    char Sen[SIZE];
     
     printf("Enter sentence:\n");
     fgets(Sen, SIZE, stdin);
     
-    len = strlen(Sen);
-    if (Sen[len - 1] == '\n')
-        Sen[--len] = '\0';
-
     InitStack();
-    for (i = 0; i < len; i++) {
-        Push(Sen[i]);
-    }
-
-    for (i = 0; i < len; i++) {
-        New[i] = Pop();
-    }
-    New[len] = '\0'; 
-
-    printf("Reversed sentence: %s\n", New);
+    ReverseString(Sen);
 }
 
 void InitStack() {
@@ -59,3 +47,23 @@ char Pop() {
     return S.A[S.Top--];
 }
 
+void ReverseString(char Sen[SIZE])
+{
+	char New[SIZE];
+	int i, len;
+	len = strlen(Sen);
+    if (Sen[len - 1] == '\n')
+        Sen[--len] = '\0';
+
+    InitStack();
+    for (i = 0; i < len; i++) {
+        Push(Sen[i]);
+    }
+
+    for (i = 0; i < len; i++) {
+        New[i] = Pop();
+    }
+    New[len] = '\0'; 
+
+    printf("Reversed sentence: %s\n", New);
+}
