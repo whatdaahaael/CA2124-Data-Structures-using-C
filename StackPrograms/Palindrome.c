@@ -13,37 +13,23 @@ STACK S;
 
 void InitStack();
 void Push(char Num);
+void Palindrome(char Sen[SIZE]);
 char Pop();
 
-int main() {
-    char Sen[SIZE], New[SIZE];
+int main() 
+{
+    char Sen[SIZE];
     int i, len;
     
     printf("Enter word without spaces and in small letters:\n");
     fgets(Sen, SIZE, stdin);
     
-    len = strlen(Sen);
-    if (Sen[len - 1] == '\n')
-        Sen[--len] = '\0';
-
     InitStack();
-    for (i = 0; i < len; i++) {
-        Push(Sen[i]);
-    }
-
-    for (i = 0; i < len; i++) {
-        New[i] = Pop();
-    }
-    New[len] = '\0'; 
-	
-	if(strcmp(Sen, New)==0){
-		printf("%s is Palindrome.\n", Sen);
-	} else {
-		printf("%s is not Palindrome.\n", Sen);
-	}
+    Palindrome(Sen);
 }
 
-void InitStack() {
+void InitStack() 
+{
     S.Top = -1;
 }
 
@@ -63,3 +49,27 @@ char Pop() {
     return S.A[S.Top--];
 }
 
+void Palindrome(char Sen[SIZE])
+{
+	char New[SIZE];
+	int i, len;
+	
+    len = strlen(Sen);
+    if (Sen[len - 1] == '\n')
+        Sen[--len] = '\0';
+    
+	for (i = 0; i < len; i++) {
+        Push(Sen[i]);
+    }
+
+    for (i = 0; i < len; i++) {
+        New[i] = Pop();
+    }
+    New[len] = '\0'; 
+	
+	if(strcmp(Sen, New)==0){
+		printf("%s is Palindrome.\n", Sen);
+	} else {
+		printf("%s is not Palindrome.\n", Sen);
+	}
+}
