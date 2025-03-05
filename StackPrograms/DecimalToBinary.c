@@ -20,14 +20,8 @@ int main()
 {
     int N;
     
-    printf("Enter a decimal number:\n");
+    printf("Enter a decimal number > 0:\n");
     scanf("%d", &N);
-    
-    if (N < 0) {
-        printf("Only positive numbers allowed.\n");
-        return 1;
-    }
-
     DecimalToBinary(N);
     Display();
 }
@@ -58,15 +52,8 @@ int Pop()
 
 void DecimalToBinary(int N)
 {
-	
-    if (N == 0) {
-        Push(0);
-        return;
-    }
-
-    while (N > 0) {
+	while (N > 0) {
         Push(N % 2); // Store remainder
-        printf("%d\n", N%2);
         N /= 2;
     }
 }
@@ -79,4 +66,3 @@ void Display()
     }
     printf("\n");
 }
-
